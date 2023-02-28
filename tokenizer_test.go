@@ -5,6 +5,98 @@ import (
 	"testing"
 )
 
+func TestTokenizerMultipleLevelOneComposites(t *testing.T) {
+
+	want := []Token{
+        {pos: Position{line:1,column:3}, value:"MSH"},
+        {pos: Position{line:1,column:4}, value:"|"},
+        {pos: Position{line:1,column:5}, value:"^"},
+        {pos: Position{line:1,column:6}, value:"~"},
+		{pos: Position{line:1,column:8}, value:"\\&"},
+		{pos: Position{line:1,column:9}, value:"|"},
+		{pos: Position{line:1,column:12}, value:"AAA"},
+		{pos: Position{line:1,column:13}, value:"|"},
+		{pos: Position{line:1,column:16}, value:"BBB"},
+		{pos: Position{line:1,column:17}, value:"|"},
+		{pos: Position{line:1,column:20}, value:"CCC"},
+		{pos: Position{line:1,column:21}, value:"|"},
+		{pos: Position{line:1,column:24}, value:"DDD"},
+		{pos: Position{line:1,column:25}, value:"|"},
+    }
+	
+	input:=`MSH|^~\&|AAA|BBB|CCC|DDD|`
+	
+	got, err := tokenizer(input)
+	
+	if err != nil {
+		t.Errorf("parse() returned %v ", err.Error())
+	} else if !reflect.DeepEqual(want, got) {
+		t.Errorf("parse() \nwant %+v, \ngot %+v ", want, got)
+	}	
+}
+
+func TestTokenizerMultipleLevelTwoComposites(t *testing.T) {
+
+	want := []Token{
+        {pos: Position{line:1,column:3}, value:"MSH"},
+        {pos: Position{line:1,column:4}, value:"|"},
+        {pos: Position{line:1,column:5}, value:"^"},
+        {pos: Position{line:1,column:6}, value:"~"},
+		{pos: Position{line:1,column:8}, value:"\\&"},
+		{pos: Position{line:1,column:9}, value:"|"},
+		{pos: Position{line:1,column:12}, value:"AAA"},
+		{pos: Position{line:1,column:13}, value:"^"},
+		{pos: Position{line:1,column:16}, value:"BBB"},
+		{pos: Position{line:1,column:17}, value:"^"},
+		{pos: Position{line:1,column:20}, value:"CCC"},
+		{pos: Position{line:1,column:21}, value:"^"},
+		{pos: Position{line:1,column:24}, value:"DDD"},
+		{pos: Position{line:1,column:25}, value:"|"},
+    }
+	
+	input:=`MSH|^~\&|AAA^BBB^CCC^DDD|`
+	
+	got, err := tokenizer(input)
+	
+	if err != nil {
+		t.Errorf("parse() returned %v ", err.Error())
+	} else if !reflect.DeepEqual(want, got) {
+		t.Errorf("parse() \nwant %+v, \ngot %+v ", want, got)
+	}
+}
+
+func TestTokenizerMultipleLevelThreeComposites(t *testing.T) {
+
+	want := []Token{
+        {pos: Position{line:1,column:3}, value:"MSH"},
+        {pos: Position{line:1,column:4}, value:"|"},
+        {pos: Position{line:1,column:5}, value:"^"},
+        {pos: Position{line:1,column:6}, value:"~"},
+		{pos: Position{line:1,column:8}, value:"\\&"},
+		{pos: Position{line:1,column:9}, value:"|"},
+		{pos: Position{line:1,column:12}, value:"AAA"},
+		{pos: Position{line:1,column:13}, value:"^"},
+		{pos: Position{line:1,column:16}, value:"BBB"},
+		{pos: Position{line:1,column:17}, value:"~"},
+		{pos: Position{line:1,column:20}, value:"CCC"},
+		{pos: Position{line:1,column:21}, value:"~"},
+		{pos: Position{line:1,column:24}, value:"DDD"},
+		{pos: Position{line:1,column:25}, value:"^"},
+		{pos: Position{line:1,column:28}, value:"EEE"},
+		{pos: Position{line:1,column:29}, value:"|"},
+    }
+	
+	input:=`MSH|^~\&|AAA^BBB~CCC~DDD^EEE|`
+	
+	got, err := tokenizer(input)
+	
+	if err != nil {
+		t.Errorf("parse() returned %v ", err.Error())
+	} else if !reflect.DeepEqual(want, got) {
+		t.Errorf("parse() \nwant %+v, \ngot %+v ", want, got)
+	}
+}
+
 func TestTokenizer(t *testing.T) {
 
 	//want := make([]Token, 0)
@@ -56,5 +148,4 @@ PID|`
 	} else if !reflect.DeepEqual(want, got) {
 		t.Errorf("parse() \nwant %+v, \ngot %+v ", want, got)
 	}
-	
 }

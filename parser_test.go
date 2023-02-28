@@ -13,61 +13,61 @@ func TestParser(t *testing.T) {
 	want := []Segment{
         {
 			composite: []Composite{
-				{ value: "MSH", subComposite: nil },
+				{ value: "MSH", subComposite: []SubComposite{} },
 				{ 
 					value: "", subComposite: []SubComposite{ 
-						{ value:"^", subSubComposite:nil },
-						{ value:"~", subSubComposite:nil },
-						{ value:"\\&", subSubComposite:nil },
+						{ value:"^", subSubComposite: []SubSubComposite{} },
+						{ value:"~", subSubComposite: []SubSubComposite{} },
+						{ value:"\\&", subSubComposite: []SubSubComposite{} },
 					}, 
 				},
-				{ value: "EPIC", subComposite: nil },
-				{ value: "EPICADT", subComposite: nil },
-				{ value: "SMS", subComposite: nil },
-				{ value: "SMSADT", subComposite: nil },
-				{ value: "199912271408", subComposite: nil },
-				{ value: "CHARRIS", subComposite: nil },
+				{ value: "EPIC", subComposite: []SubComposite{} },
+				{ value: "EPICADT", subComposite: []SubComposite{} },
+				{ value: "SMS", subComposite: []SubComposite{} },
+				{ value: "SMSADT", subComposite: []SubComposite{} },
+				{ value: "199912271408", subComposite: []SubComposite{} },
+				{ value: "CHARRIS", subComposite: []SubComposite{} },
 				{
 					value: "", subComposite: []SubComposite{ 
-						{ value:"ADT", subSubComposite:nil },
-						{ value:"A04", subSubComposite:nil },						
+						{ value:"ADT", subSubComposite: []SubSubComposite{} },
+						{ value:"A04", subSubComposite: []SubSubComposite{} },						
 					}, 
 				},
 			},
 		},
 		{
 			composite: []Composite{
-				{ value: "PID", subComposite: nil},
+				{ value: "PID", subComposite: []SubComposite{} },
 			},
 		},
     }
 		
 	input := []Token{
-        {pos: Position{line:1,column:3}, value:"MSH"},
-        {pos: Position{line:1,column:4}, value:"|"},
-        {pos: Position{line:1,column:5}, value:"^"},
-        {pos: Position{line:1,column:6}, value:"~"},
-		{pos: Position{line:1,column:8}, value:"\\&"},
-		{pos: Position{line:1,column:9}, value:"|"},
-		{pos: Position{line:1,column:13}, value:"EPIC"},
-		{pos: Position{line:1,column:14}, value:"|"},
-		{pos: Position{line:1,column:21}, value:"EPICADT"},
-		{pos: Position{line:1,column:22}, value:"|"},
-		{pos: Position{line:1,column:25}, value:"SMS"},
-		{pos: Position{line:1,column:26}, value:"|"},
-		{pos: Position{line:1,column:32}, value:"SMSADT"},
-		{pos: Position{line:1,column:33}, value:"|"},
-		{pos: Position{line:1,column:45}, value:"199912271408"},
-		{pos: Position{line:1,column:46}, value:"|"},
-		{pos: Position{line:1,column:53}, value:"CHARRIS"},
-		{pos: Position{line:1,column:54}, value:"|"},
-		{pos: Position{line:1,column:57}, value:"ADT"},
-		{pos: Position{line:1,column:58}, value:"^"},
-		{pos: Position{line:1,column:61}, value:"A04"},
-		{pos: Position{line:1,column:62}, value:"|"},
-		{pos: Position{line:1,column:63}, value:"newline"},
-		{pos: Position{line:2,column:3}, value:"PID"},
-		{pos: Position{line:2,column:4}, value:"|"},
+        {pos: Position{line:1,column:3}, value:"MSH", level: 1},
+        {pos: Position{line:1,column:4}, value:"|", level: 1},
+        {pos: Position{line:1,column:5}, value:"^", level: 2},
+        {pos: Position{line:1,column:6}, value:"~", level: 2},
+		{pos: Position{line:1,column:8}, value:"\\&", level: 2},
+		{pos: Position{line:1,column:9}, value:"|", level: 1},
+		{pos: Position{line:1,column:13}, value:"EPIC", level: 1},
+		{pos: Position{line:1,column:14}, value:"|", level: 1},
+		{pos: Position{line:1,column:21}, value:"EPICADT", level: 1},
+		{pos: Position{line:1,column:22}, value:"|", level: 1},
+		{pos: Position{line:1,column:25}, value:"SMS", level: 1},
+		{pos: Position{line:1,column:26}, value:"|", level: 1},
+		{pos: Position{line:1,column:32}, value:"SMSADT", level: 1},
+		{pos: Position{line:1,column:33}, value:"|", level: 1},
+		{pos: Position{line:1,column:45}, value:"199912271408", level: 1},
+		{pos: Position{line:1,column:46}, value:"|", level: 1},
+		{pos: Position{line:1,column:53}, value:"CHARRIS", level: 1},
+		{pos: Position{line:1,column:54}, value:"|", level: 1},
+		{pos: Position{line:1,column:57}, value:"ADT", level: 2},
+		{pos: Position{line:1,column:58}, value:"^", level: 2},
+		{pos: Position{line:1,column:61}, value:"A04", level: 2},
+		{pos: Position{line:1,column:62}, value:"|", level: 1},
+		{pos: Position{line:1,column:63}, value:"newline", level: 1},
+		{pos: Position{line:2,column:3}, value:"PID", level: 1},
+		{pos: Position{line:2,column:4}, value:"|", level: 1},
     }
 	
 	got, err := parse(input)
@@ -75,7 +75,7 @@ func TestParser(t *testing.T) {
 	if err != nil {
 		t.Errorf("parse() returned %v ", err.Error())
 	} else if !reflect.DeepEqual(want, got) {
-		t.Errorf("parse() \nwant %+v, \ngot %+v ", want, got)
+		t.Errorf("parse() \nwant %+v \ngot  %+v ", want, got)
 	}
 	
 }

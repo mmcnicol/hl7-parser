@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	//"fmt"
 	//"strings"
 )
 
@@ -13,10 +13,11 @@ type Position struct {
 type Token struct {
 	pos Position
 	value string
+	level int
 }
 
 func tokenizer(message string) ([]Token, error) {
-	fmt.Println("hello!")
+	//fmt.Println("hello!")
 	
 	tokens := make([]Token, 0)
 	
